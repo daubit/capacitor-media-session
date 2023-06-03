@@ -95,7 +95,6 @@ public class MediaSessionPlugin extends Plugin {
         service.update();
     }
 
-
     private Bitmap urlToBitmap(String url) throws IOException {
         final boolean blobUrl = url.startsWith("blob:");
         if (blobUrl) {
@@ -128,15 +127,19 @@ public class MediaSessionPlugin extends Plugin {
         album = call.getString("album", album);
 
         final JSArray artworkArray = call.getArray("artwork");
-        final List<JSONObject> artworkList = artworkArray.toList();
-        for (JSONObject artwork : artworkList) {
-            String src = artwork.getString("src");
-            if (src != null) {
-                this.artwork = urlToBitmap(src);
+        if (artworkArray != null) {
+            final List<JSONObject> artworkList = artworkArray.toList();
+            for (JSONObject artwork : artworkList) {
+                String src = artwork.getString("src");
+                if (src != null) {
+                    this.artwork = urlToBitmap(src);
+                }
             }
         }
 
-        if (service != null) { updateServiceMetadata(); };
+        if (service != null) {
+            updateServiceMetadata();
+        }
     }
 
     private void updateServicePlaybackState() {
@@ -181,7 +184,9 @@ public class MediaSessionPlugin extends Plugin {
         position = call.getDouble("position", 0.0);
         playbackRate = call.getFloat("playbackRate", 1.0F);
 
-        if (service != null) { updateServicePositionState(); };
+        if (service != null) {
+            updateServicePositionState();
+        }
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
@@ -189,11 +194,14 @@ public class MediaSessionPlugin extends Plugin {
         call.setKeepAlive(true);
         actionHandlers.put(call.getString("action"), call);
 
-        if (service != null) { service.updatePossibleActions(); };
+        if (service != null) {
+            service.updatePossibleActions();
+        }
     }
 
     public boolean hasActionHandler(String action) {
-        return actionHandlers.containsKey(action) && !actionHandlers.get(action).getCallbackId().equals(PluginCall.CALLBACK_ID_DANGLING);
+        return actionHandlers.containsKey(action)
+                && !actionHandlers.get(action).getCallbackId().equals(PluginCall.CALLBACK_ID_DANGLING);
     }
 
     public void actionCallback(String action) {
