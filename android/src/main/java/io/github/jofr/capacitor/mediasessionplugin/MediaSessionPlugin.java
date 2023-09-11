@@ -52,6 +52,7 @@ public class MediaSessionPlugin extends Plugin {
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            System.out.println("onServiceConnected");
             MediaSessionService.LocalBinder binder = (MediaSessionService.LocalBinder) iBinder;
             service = binder.getService();
             Intent intent = new Intent(getActivity(), getActivity().getClass());
@@ -70,7 +71,7 @@ public class MediaSessionPlugin extends Plugin {
     @Override
     public void load() {
         super.load();
-
+        System.out.println(this.handle.getId());
         final String foregroundServiceConfig = getConfig().getString("foregroundService", "");
         if (foregroundServiceConfig.equals("always")) {
             startServiceOnlyDuringPlayback = false;
@@ -82,6 +83,7 @@ public class MediaSessionPlugin extends Plugin {
     }
 
     public void startMediaService() {
+        System.out.println("startMediaService");
         Intent intent = new Intent(getActivity(), MediaSessionService.class);
         ContextCompat.startForegroundService(getContext(), intent);
         getContext().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);

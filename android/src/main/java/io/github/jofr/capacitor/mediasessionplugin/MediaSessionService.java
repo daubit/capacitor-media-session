@@ -80,6 +80,7 @@ public class MediaSessionService extends Service {
     }
 
     public void connectAndInitialize(MediaSessionPlugin plugin, Intent intent) {
+        System.out.println("connectAndInitialize");
         this.plugin = plugin;
 
         mediaSession = new MediaSessionCompat(this, "WebViewMediaSession");
@@ -269,7 +270,7 @@ public class MediaSessionService extends Service {
             playbackStateUpdate = false;
         }
 
-        if (mediaMetadataUpdate) {
+        if (mediaMetadataUpdate && mediaMetadataBuilder != null) {
             mediaMetadataBuilder
                     .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
                     .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
@@ -280,7 +281,7 @@ public class MediaSessionService extends Service {
             mediaMetadataUpdate = false;
         }
 
-        if (notificationUpdate) {
+        if (notificationUpdate  && notificationBuilder != null) {
             notificationBuilder
                     .setContentTitle(title)
                     .setContentText(artist + " - " + album)
