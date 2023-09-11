@@ -80,7 +80,6 @@ public class MediaSessionService extends Service {
     }
 
     public void connectAndInitialize(MediaSessionPlugin plugin, Intent intent) {
-        System.out.println("connectAndInitialize");
         this.plugin = plugin;
 
         mediaSession = new MediaSessionCompat(this, "WebViewMediaSession");
