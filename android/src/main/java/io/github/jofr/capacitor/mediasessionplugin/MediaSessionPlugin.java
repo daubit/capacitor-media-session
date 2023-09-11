@@ -137,9 +137,8 @@ public class MediaSessionPlugin extends Plugin {
             }
         }
 
-        if (service != null) {
-            updateServiceMetadata();
-        }
+        if (service != null) { updateServiceMetadata(); };
+        call.resolve();
     }
 
     private void updateServicePlaybackState() {
@@ -168,6 +167,7 @@ public class MediaSessionPlugin extends Plugin {
         } else if (service != null) {
             updateServicePlaybackState();
         }
+        call.resolve();
     }
 
     private void updateServicePositionState() {
@@ -184,9 +184,8 @@ public class MediaSessionPlugin extends Plugin {
         position = call.getDouble("position", 0.0);
         playbackRate = call.getFloat("playbackRate", 1.0F);
 
-        if (service != null) {
-            updateServicePositionState();
-        }
+        if (service != null) { updateServicePositionState(); };
+        call.resolve();
     }
 
     @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
